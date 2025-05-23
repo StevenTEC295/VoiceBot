@@ -37,6 +37,7 @@ def dialogflow_webhook():
     session = session_client.session_path(PROJECT_ID, SESSION_ID)
     text_input = dialogflow.TextInput(text=user_text, language_code=LANGUAGE_CODE)
     query_input = dialogflow.QueryInput(text=text_input)
+    print(f"User input: {user_text}")
     response = session_client.detect_intent(request={"session": session, "query_input": query_input})
     bot_reply = response.query_result.fulfillment_text
 
