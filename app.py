@@ -16,7 +16,7 @@ def voice():
     """Primer endpoint que Twilio llama al iniciar la llamada"""
     resp = VoiceResponse()
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=5)
-    gather.say("Hola, ¿en qué puedo ayudarte?")
+    gather.say("Hola, ¿en qué puedo ayudarte?",language="es-MX", voice="Polly.Lupe")
     resp.append(gather)
     resp.redirect('/voice')  # Si no hubo respuesta, repite
     return Response(str(resp), mimetype="application/xml")
