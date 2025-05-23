@@ -50,7 +50,7 @@ def dialogflow_webhook():
 
     # Responder al usuario
     twiml = VoiceResponse()
-    gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=5,language="es-MX")
+    gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
     gather.say(bot_reply,language="es-MX", voice="Google.es-US-Chirp3-HD-Leda")
     twiml.append(gather)
     twiml.redirect('/voice')  # Si no responde
