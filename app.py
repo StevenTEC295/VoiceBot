@@ -4,7 +4,7 @@ from google.cloud import dialogflow_v2 as dialogflow
 import os
 
 # Configuración
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "./etc/secrets/whatsappagent-qcxq-393346593d28.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/etc/secrets/whatsappagent-qcxq-393346593d28.json"
 PROJECT_ID = "whatsappagent-qcxq"
 LANGUAGE_CODE = "es"
 SESSION_ID = "123456"  # puede ser el número del cliente
