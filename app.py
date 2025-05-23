@@ -23,7 +23,7 @@ def voice():
     bot_reply = response.query_result.fulfillment_text
     resp = VoiceResponse()
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
-    gather.say(bot_reply, voice="Google.es-US-Chirp3-HD-Leda")
+    gather.say(bot_reply, voice="Google.es-US-Chirp3-HD-Puck")
     resp.append(gather)
     resp.redirect('/voice')  # Si no hubo respuesta, repite
     return Response(str(resp), mimetype="application/xml")
@@ -51,7 +51,7 @@ def dialogflow_webhook():
     # Responder al usuario
     twiml = VoiceResponse()
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
-    gather.say(bot_reply, voice="Google.es-US-Chirp3-HD-Leda")
+    gather.say(bot_reply, voice="Google.es-US-Chirp3-HD-Puck")
     twiml.append(gather)
     twiml.redirect('/voice')  # Si no responde
     return Response(str(twiml), mimetype="application/xml")
