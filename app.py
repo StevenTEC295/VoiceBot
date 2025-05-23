@@ -14,9 +14,16 @@ app = Flask(__name__)
 @app.route("/voice", methods=["POST"])
 def voice():
     """Primer endpoint que Twilio llama al iniciar la llamada"""
+    session_client = dialogflow.SessionsClient()
+    session = session_client.session_path(PROJECT_ID, SESSION_ID)
+    text_input = dialogflow.TextInput(text="Hola", language_code=LANGUAGE_CODE)
+    query_input = dialogflow.QueryInput(text=text_input)
+    
+    response = session_client.detect_intent(request={"session": session, "query_input": query_input})
+    bot_reply = response.query_result.fulfillment_text
     resp = VoiceResponse()
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
-    gather.say("Hola, ¿en qué puedo ayudarte?",language="es-MX", voice="Polly.Lupe")
+    gather.say(bot_reply,language="es-MX", voice="Polly.Lupe")
     resp.append(gather)
     resp.redirect('/voice')  # Si no hubo respuesta, repite
     return Response(str(resp), mimetype="application/xml")
