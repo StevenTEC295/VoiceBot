@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 @app.route("/voice", methods=["POST"])
 def voice():
+    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Leda")
     """Primer endpoint que Twilio llama al iniciar la llamada"""
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(PROJECT_ID, SESSION_ID)
@@ -22,8 +23,8 @@ def voice():
     response = session_client.detect_intent(request={"session": session, "query_input": query_input})
     bot_reply = response.query_result.fulfillment_text
     resp = VoiceResponse()
-    gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
-    gather.say(bot_reply, voice="Polly.Woman")
+    gather = Gather(input="speech", action=f"/dialogflow?voice={voice}", method="POST", timeout=1,language="es-MX")
+    gather.say(bot_reply, voice=voice)
     resp.append(gather)
     resp.redirect('/voice')  # Si no hubo respuesta, repite
     return Response(str(resp), mimetype="application/xml")
@@ -31,6 +32,7 @@ def voice():
 @app.route("/dialogflow", methods=["POST"])
 def dialogflow_webhook():
     """Procesa la respuesta del cliente y consulta Dialogflow"""
+    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Leda")
     user_text = request.form.get('SpeechResult')
     
     if not user_text:
@@ -51,7 +53,7 @@ def dialogflow_webhook():
     # Responder al usuario
     twiml = VoiceResponse()
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
-    gather.say(bot_reply, voice="Polly.Woman")
+    gather.say(bot_reply, voice=voice)
     twiml.append(gather)
     twiml.redirect('/voice')  # Si no responde
     return Response(str(twiml), mimetype="application/xml")
