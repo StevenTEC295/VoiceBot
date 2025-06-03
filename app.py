@@ -42,16 +42,26 @@ def dialogflow_webhook():
         return Response(str(resp), mimetype="application/xml")
 
     # Enviar a Dialogflow
+
+    
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(PROJECT_ID, SESSION_ID)
+
+
     text_input = dialogflow.TextInput(text=user_text, language_code=LANGUAGE_CODE)
     query_input = dialogflow.QueryInput(text=text_input)
     print(f"User input: {user_text}")
     response = session_client.detect_intent(request={"session": session, "query_input": query_input})
+    twiml = VoiceResponse()
+
+    if response.query_result.intent.display_name == "cliente-serio Confirmado":
+        dial = twiml.dial()
+        dial.sip("sip:itscr.pstn.ashburn.twilio.com")
+    
     bot_reply = response.query_result.fulfillment_text
 
     # Responder al usuario
-    twiml = VoiceResponse()
+    
     gather = Gather(input="speech", action="/dialogflow", method="POST", timeout=1,language="es-MX")
     gather.say(bot_reply, voice=voice)
     twiml.append(gather)
