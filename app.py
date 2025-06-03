@@ -57,6 +57,7 @@ def dialogflow_webhook():
     if response.query_result.intent.display_name == "cliente-serio Confirmado":
         dial = twiml.dial()
         dial.sip("sip:itscr.pstn.ashburn.twilio.com")
+        print("Intento de llamada SIP exitoso")
     
     bot_reply = response.query_result.fulfillment_text
 
