@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 @app.route("/voice", methods=["POST"])
 def voice():
-    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Leda")
+    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Aoede")
     """Primer endpoint que Twilio llama al iniciar la llamada"""
     session_client = dialogflow.SessionsClient()
     session = session_client.session_path(PROJECT_ID, SESSION_ID)
@@ -32,7 +32,7 @@ def voice():
 @app.route("/dialogflow", methods=["POST"])
 def dialogflow_webhook():
     """Procesa la respuesta del cliente y consulta Dialogflow"""
-    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Leda")
+    voice = request.args.get("voice", "Google.es-US-Chirp3-HD-Aoede")
     user_text = request.form.get('SpeechResult')
     
     if not user_text:
